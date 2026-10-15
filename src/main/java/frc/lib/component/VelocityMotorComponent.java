@@ -21,9 +21,9 @@ import frc.lib.util.UnitsUtil;
  * 
  * @param <M> the type of MotorIO implementation used by this component
  * @see MotorComponent
- * @see ServoMotorComponent
+ * @see PositionMotorComponent
  */
-public class FlywheelMotorComponent<M extends MotorIO> extends MotorComponent<M> {
+public class VelocityMotorComponent<M extends MotorIO> extends MotorComponent<M> {
     /** The velocity tolerance for determining if a target has been reached */
     protected AngularVelocity epsilonThreshold;
 
@@ -33,7 +33,7 @@ public class FlywheelMotorComponent<M extends MotorIO> extends MotorComponent<M>
      * @param motorIO the motor I/O implementation to control
      * @param epsilon the velocity tolerance threshold for target detection
      */
-    public FlywheelMotorComponent(M motorIO, AngularVelocity epsilon) {
+    public VelocityMotorComponent(M motorIO, AngularVelocity epsilon) {
         super(motorIO);
         epsilonThreshold = epsilon;
     }

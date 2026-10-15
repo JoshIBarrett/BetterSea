@@ -18,7 +18,7 @@ import frc.lib.util.logging.Logger;
  * A servo motor component with automatic homing functionality.
  * 
  * <p>
- * This component extends {@link ServoMotorComponent} to add automatic homing
+ * This component extends {@link PositionMotorComponent} to add automatic homing
  * capabilities.
  * Homing is the process of moving a mechanism to a known physical hard stop and
  * resetting
@@ -44,10 +44,10 @@ import frc.lib.util.logging.Logger;
  * </ol>
  * 
  * @param <M> the type of MotorIO implementation used by this component
- * @see ServoMotorComponent
+ * @see PositionMotorComponent
  * @see HomingConfig
  */
-public class HomingServoMotorComponent<M extends MotorIO> extends ServoMotorComponent<M> {
+public class HomingPositionMotorComponent<M extends MotorIO> extends PositionMotorComponent<M> {
     /** Whether a homing sequence is currently in progress */
     private boolean homing = false;
     /** Whether the mechanism needs to be homed before reliable operation */
@@ -59,7 +59,7 @@ public class HomingServoMotorComponent<M extends MotorIO> extends ServoMotorComp
      */
     private Debouncer homingDebouncer;
 
-    public HomingServoMotorComponent(M motorIO, Angle epsilon, Angle startAngle, HomingConfig config) {
+    public HomingPositionMotorComponent(M motorIO, Angle epsilon, Angle startAngle, HomingConfig config) {
         super(motorIO, epsilon, startAngle);
         homingConfig = config;
         homingDebouncer = new Debouncer(config.homingDebouce.in(Units.Seconds), DebounceType.kRising);

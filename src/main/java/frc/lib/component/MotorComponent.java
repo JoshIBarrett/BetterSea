@@ -31,8 +31,8 @@ import frc.lib.io.motor.setpoints.BaseSetpoint;
  * 
  * @param <M> the type of MotorIO implementation used by this component
  * @see MotorIO
- * @see ServoMotorComponent
- * @see FlywheelMotorComponent
+ * @see PositionMotorComponent
+ * @see VelocityMotorComponent
  */
 public class MotorComponent<M extends MotorIO> implements Component {
     private final M io;
