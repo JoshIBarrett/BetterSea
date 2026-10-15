@@ -20,9 +20,9 @@ import frc.lib.util.UnitsUtil;
  * 
  * @param <M> the type of MotorIO implementation used by this component
  * @see MotorComponent
- * @see HomingServoMotorComponent
+ * @see HomingPositionMotorComponent
  */
-public class ServoMotorComponent<M extends MotorIO> extends MotorComponent<M> {
+public class PositionMotorComponent<M extends MotorIO> extends MotorComponent<M> {
     /** The position tolerance for determining if a target has been reached */
     protected Angle epsilonThreshold;
 
@@ -33,7 +33,7 @@ public class ServoMotorComponent<M extends MotorIO> extends MotorComponent<M> {
      * @param epsilon the position tolerance threshold for target detection
      * @param startAngle the initial position to set on the encoder
      */
-    public ServoMotorComponent(M motorIO, Angle epsilon, Angle startAngle) {
+    public PositionMotorComponent(M motorIO, Angle epsilon, Angle startAngle) {
         super(motorIO);
         epsilonThreshold = epsilon;
         resetPosition(startAngle);
