@@ -12,8 +12,9 @@ public class ControlBoard {
         CommandXboxController operator = ControlBoardConstants.operator;
 
         // Controls
-        s.drive.setDefaultCommand(s.drive.teleopDrive(driver));
-        driver.start().onTrue(Commands.runOnce(() -> s.drive.resetPose(new Pose2d())));
+        // s.drive.setDefaultCommand(s.drive.teleopDrive(driver));
+        // driver.start().onTrue(Commands.runOnce(() -> s.drive.resetPose(new Pose2d())));
+        s.tankDrive.setDefaultCommand(s.tankDrive.drive(() -> driver.getLeftY(), () -> driver.getLeftX()));
 
 
     }
