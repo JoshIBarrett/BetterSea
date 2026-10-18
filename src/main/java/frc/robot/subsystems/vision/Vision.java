@@ -7,6 +7,6 @@ import frc.lib.vision.VisionSubsystem;
 
 public class Vision extends VisionSubsystem {    
     public Vision(BiConsumer<Pose2d, Double> addVisionEstimate) {
-        super(addVisionEstimate, VisionContants.getComponent());
+        super(addVisionEstimate, VisionConstants.getComponent());
     }
 }

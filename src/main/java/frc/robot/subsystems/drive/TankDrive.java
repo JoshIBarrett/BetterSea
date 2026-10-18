@@ -13,7 +13,7 @@ import frc.lib.component.ComponentSubsystem;
 import frc.lib.component.MotorComponent;
 import frc.lib.io.motor.rev.SparkBaseIO;
 import frc.lib.io.motor.setpoints.VoltageSetpoint;
-import frc.robot.subsystems.vision.VisionContants;
+import frc.robot.subsystems.vision.VisionConstants;
 import frc.lib.util.logging.Logger;
 
 
@@ -34,7 +34,7 @@ public class TankDrive extends ComponentSubsystem {
             d -> rightMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
         );
         kinematics = new DifferentialDriveKinematics(TankDriveConstants.trackWidth);
-        poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 0.0, 0.0, new Pose2d(), TankDriveConstants.stdDevs, VisionContants.stdDevs);
+        poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 0.0, 0.0, new Pose2d(), TankDriveConstants.stdDevs, VisionConstants.stdDevs);
     }
 
     public Command drive(DoubleSupplier forwardsSpeed, DoubleSupplier turnSpeed) {

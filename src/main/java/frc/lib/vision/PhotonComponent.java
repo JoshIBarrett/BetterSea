@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
+import frc.lib.util.logging.Logger;
 import frc.lib.vision.VisionSubsystem.PoseEstimate;
 
 public class PhotonComponent extends VisionComponent {
@@ -38,17 +39,24 @@ public class PhotonComponent extends VisionComponent {
     public PoseEstimate updateLatestEstimate() {
         List<PhotonPipelineResult> unreads = camera.getAllUnreadResults();
         
-        if (unreads.size() == 0) { // If no unread results, return null
-            return null;
-        }
+        Logger.log("TEST", unreads.size());
         
+        if (unreads.size() == 0) { // If no unread results, return null
+            return PoseEstimate.empty;
+        }
+        Logger.log("TEST2", unreads.get(0).targets.size());
+
         PhotonPipelineResult photonRaw = unreads.get(unreads.size() - 1);
         
-        var photonEstimateOpt = estimator.estimateCoprocMultiTagPose(photonRaw);
+        Logger.log("TEST2.2", photonRaw.targets.size());
+
+        var photonEstimateOpt = estimator.estimateAverageBestTargetsPose(photonRaw);
+        // var photonEstimateOpt = estimator.estimateCoprocMultiTagPose(photonRaw);
         boolean exists = photonEstimateOpt.isPresent();
+        Logger.log("TEST2.5", exists);
 
         if (!exists) { 
-            return null;
+            return PoseEstimate.empty;
         }
 
         var photonEstimate = photonEstimateOpt.get();
@@ -56,6 +64,9 @@ public class PhotonComponent extends VisionComponent {
 
         double timestampSeconds = photonRaw.getTimestampSeconds();
         
+        Logger.log("TEST3", timestampSeconds);
+        Logger.log("TEST3.1", pose);
+
         var targets = photonEstimate.targetsUsed;
         int tagCount = targets.size();
 

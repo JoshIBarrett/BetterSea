@@ -9,10 +9,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.vision.PhotonComponent;
 
-public class VisionContants {
+public class VisionConstants {
     public static final String cameraName = "cam1";
     public static AprilTagFieldLayout fieldLayout;
     public static Transform3d robotToCam = new Transform3d(new Translation3d(), new Rotation3d());
@@ -20,7 +21,7 @@ public class VisionContants {
 
     static {
         try {
-            fieldLayout = new AprilTagFieldLayout("/field_layout.json");
+            fieldLayout = new AprilTagFieldLayout(Filesystem.getDeployDirectory() + "/field_layout.json");
             SmartDashboard.putString("Vision Found File: ", "SUCCESS");
 
         } catch (Exception e) {

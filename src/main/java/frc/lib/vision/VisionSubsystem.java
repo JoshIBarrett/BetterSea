@@ -52,5 +52,7 @@ public class VisionSubsystem extends SubsystemBase implements Loggable{
         int tagCount,
         double averageDistance,
         double averageArea,
-        boolean exists) {}
+        boolean exists) {
+            public static final PoseEstimate empty = new PoseEstimate(new Pose2d(), 0, 0, 0, 0, false);
+        }
 }

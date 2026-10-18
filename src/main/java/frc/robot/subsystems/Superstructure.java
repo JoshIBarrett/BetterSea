@@ -16,5 +16,6 @@ public class Superstructure implements Loggable {
     public void log(String path) {
         // Logger.log(path, "Drive", drive);
        Logger.log(path, "Tank Drive", tankDrive);
+       Logger.log(path, "Vision", vision);
     }
 }

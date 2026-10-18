@@ -14,6 +14,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import dev.doglog.DogLogOptions;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -55,10 +56,12 @@ public class Robot extends TimedRobot {
            true, true, 1000, (BooleanSupplier) () -> !DriverStation.isFMSAttached(), true));
         ControlBoard.bindControls(superstructure);
         
-        FollowPathCommand.warmupCommand().schedule();
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-        SmartDashboard.putData(CommandScheduler.getInstance());
+        PortForwarder.add(5800, "photonvision.local", 5800);
+
+        // FollowPathCommand.warmupCommand().schedule();
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        // SmartDashboard.putData(CommandScheduler.getInstance());
     }
 
     /**

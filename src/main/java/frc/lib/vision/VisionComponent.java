@@ -5,7 +5,7 @@ import frc.lib.util.logging.Logger;
 import frc.lib.vision.VisionSubsystem.PoseEstimate;
 
 public abstract class VisionComponent implements Component {
-    private PoseEstimate latestEstimate;
+    private PoseEstimate latestEstimate = PoseEstimate.empty;
     private final String name;
 
     public VisionComponent(String name) {
