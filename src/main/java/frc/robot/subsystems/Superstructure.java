@@ -10,8 +10,8 @@ import frc.lib.vision.VisionSubsystem;
 public class Superstructure implements Loggable {
     // public final Drive drive = new Drive();
     public final TankDrive tankDrive = new TankDrive();
-    public final Vision vision = new Vision()
-    
+    public final Vision vision = new Vision(tankDrive::addVisionMeasurement);
+
     @Override
     public void log(String path) {
         // Logger.log(path, "Drive", drive);
