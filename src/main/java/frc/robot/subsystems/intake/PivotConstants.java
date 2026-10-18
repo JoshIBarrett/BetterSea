@@ -2,28 +2,29 @@ package frc.robot.subsystems.intake;
 
 
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.lib.component.HomingPositionMotorComponent;
 import frc.lib.component.HomingPositionMotorComponent.HomingConfig;
 import frc.lib.io.motor.rev.SparkBaseIO;
+import frc.lib.io.motor.rev.SparkBaseSimIO;
 import frc.lib.io.motor.setpoints.PositionSetpoint;
 import frc.lib.mechanismSim.PivotSim;
 import frc.lib.mechanismSim.SimObject;
 import frc.lib.util.ConfigUtil;
+import frc.robot.IDs;
 import frc.robot.Robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 
 public class PivotConstants {
     public static final Angle epsilonThreshold = Degrees.of(5);
-    public static final double gearing = 1.0; // THIS IS DEFINETLY WRONG PROBABLY
+    public static final double gearing = 34/16.; 
     public static final MomentOfInertia moi = KilogramSquareMeters.of(0.2);
     public static final Distance length = Meters.of(0.3);
     public static final Angle minAngle = Degrees.of(-10);
@@ -70,8 +71,26 @@ public class PivotConstants {
         return config;
     }
 
+    @SuppressWarnings("unchecked")
     public static final SparkBaseIO getMotorIO() {
         return Robot.isReal()
-            ? new SparkBaseIO(type, mainConfig, mainMotor, followers)
+            ? new SparkBaseIO(
+                MotorType.kBrushless, 
+                getMainConfig(), 
+                IDs.INTAKE_PIVOT.id
+            )
+            : new SparkBaseSimIO(
+                getSimObject(), 
+                motor, 
+                MotorType.kBrushless, 
+                getMainConfig(), 
+                IDs.INTAKE_PIVOT.id
+            );
+    }
+
+    public static final HomingPositionMotorComponent<SparkBaseIO> getComponent() {
+        SparkBaseIO io = getMotorIO();
+        io.overrideLoggedUnits(Degrees, DegreesPerSecond, Celsius);
+        return new HomingPositionMotorComponent<SparkBaseIO>(io, epsilonThreshold, stowAngle, getHomingConfig());
     }
 }
