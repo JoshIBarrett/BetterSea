@@ -16,14 +16,13 @@ public class TankDrive extends ComponentSubsystem {
     private final MotorComponent<SparkBaseIO> leftMotor;
     private final MotorComponent<SparkBaseIO> rightMotor;
 
-
     public TankDrive() {
         registerComponent("Left", leftMotor = TankDriveConstants.getComponent(true));
         registerComponent("Right", rightMotor = TankDriveConstants.getComponent(false));
 
         driveController = new DifferentialDrive(
-            d -> leftMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
-            d -> rightMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
+            d -> leftMotor.applySetpoint(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
+            d -> rightMotor.applySetpoint(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
         );
     }
 

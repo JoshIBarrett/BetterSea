@@ -15,6 +15,8 @@ public class ControlBoard {
         // s.drive.setDefaultCommand(s.drive.teleopDrive(driver));
         // driver.start().onTrue(Commands.runOnce(() -> s.drive.resetPose(new Pose2d())));
         s.tankDrive.setDefaultCommand(s.tankDrive.drive(() -> -driver.getLeftY(), () -> -driver.getLeftX()));
+        driver.leftTrigger().onTrue(s.intake());
+        driver.y().onTrue(s.stow());
 
 
     }
