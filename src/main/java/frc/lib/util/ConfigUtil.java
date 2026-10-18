@@ -3,6 +3,7 @@ package frc.lib.util;
 import static edu.wpi.first.units.Units.Rotations;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.units.measure.Angle;
@@ -78,7 +79,7 @@ public class ConfigUtil {
      * @param reverseSoftLimit The maximum reverse position limit
      * @return The modified configuration for method chaining
      */
-    public static SparkMaxConfig withSoftLimits(SparkMaxConfig config, Angle forwardSoftLimit, Angle reverseSoftLimit) {
+    public static SparkBaseConfig withSoftLimits(SparkBaseConfig config, Angle forwardSoftLimit, Angle reverseSoftLimit) {
         config.softLimit.forwardSoftLimitEnabled(true);
         config.softLimit.forwardSoftLimit(forwardSoftLimit.in(Rotations));
         config.softLimit.reverseSoftLimitEnabled(true);
