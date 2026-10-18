@@ -31,6 +31,9 @@ public abstract class VisionComponent implements Component {
 
     @Override
     public void periodic() {
-        latestEstimate = updateLatestEstimate();
+        PoseEstimate estimate = updateLatestEstimate();
+        if (estimate.exists()) {
+            latestEstimate = estimate;
+        }
     }
 }

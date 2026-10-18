@@ -21,6 +21,7 @@ public class VisionSubsystem extends SubsystemBase implements Loggable{
         for (VisionComponent camera : cameras) {
             camera.periodic();
         }
+        addLatestEstimate();
     }
 
     public boolean shouldAcceptEstimate(PoseEstimate estimate) {

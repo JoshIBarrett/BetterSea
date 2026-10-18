@@ -38,22 +38,15 @@ public class PhotonComponent extends VisionComponent {
     @Override
     public PoseEstimate updateLatestEstimate() {
         List<PhotonPipelineResult> unreads = camera.getAllUnreadResults();
-        
-        Logger.log("TEST", unreads.size());
-        
-        if (unreads.size() == 0) { // If no unread results, return null
+                
+        if (unreads.size() == 0) { // If no unread results, return empty estimate
             return PoseEstimate.empty;
         }
-        Logger.log("TEST2", unreads.get(0).targets.size());
 
         PhotonPipelineResult photonRaw = unreads.get(unreads.size() - 1);
-        
-        Logger.log("TEST2.2", photonRaw.targets.size());
 
-        var photonEstimateOpt = estimator.estimateAverageBestTargetsPose(photonRaw);
-        // var photonEstimateOpt = estimator.estimateCoprocMultiTagPose(photonRaw);
+        var photonEstimateOpt = estimator.estimateCoprocMultiTagPose(photonRaw);
         boolean exists = photonEstimateOpt.isPresent();
-        Logger.log("TEST2.5", exists);
 
         if (!exists) { 
             return PoseEstimate.empty;
@@ -63,9 +56,6 @@ public class PhotonComponent extends VisionComponent {
         Pose2d pose = photonEstimate.estimatedPose.toPose2d();
 
         double timestampSeconds = photonRaw.getTimestampSeconds();
-        
-        Logger.log("TEST3", timestampSeconds);
-        Logger.log("TEST3.1", pose);
 
         var targets = photonEstimate.targetsUsed;
         int tagCount = targets.size();
