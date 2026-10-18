@@ -19,22 +19,20 @@ import frc.lib.util.logging.Logger;
 
 
 public class TankDrive extends ComponentSubsystem {
-    // private final MotorComponent<SparkBaseIO> leftMotor;
-    // private final MotorComponent<SparkBaseIO> rightMotor;
+    private final MotorComponent<SparkBaseIO> leftMotor;
+    private final MotorComponent<SparkBaseIO> rightMotor;
     private final DifferentialDrive driveController;
     private final DifferentialDrivePoseEstimator poseEstimator; // Not actually calling update on loop as recommended because drivetrain doesn't have odometry
     private final DifferentialDriveKinematics kinematics;
     private Pose2d pose = new Pose2d();
 
     public TankDrive() {
-        // registerComponent("Left", leftMotor = TankDriveConstants.getComponent(true));
-        // registerComponent("Right", rightMotor = TankDriveConstants.getComponent(false));
+        registerComponent("Left", leftMotor = TankDriveConstants.getComponent(true));
+        registerComponent("Right", rightMotor = TankDriveConstants.getComponent(false));
 
         driveController = new DifferentialDrive(
-            // d -> leftMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
-            // d -> rightMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
-            d -> {},
-            d -> {}
+            d -> leftMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
+            d -> rightMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
         );
         kinematics = new DifferentialDriveKinematics(TankDriveConstants.trackWidth);
         poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 0.0, 0.0, new Pose2d(), TankDriveConstants.stdDevs, VisionConstants.stdDevs);
