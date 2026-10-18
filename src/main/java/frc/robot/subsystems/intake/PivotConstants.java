@@ -28,7 +28,7 @@ public class PivotConstants {
     public static final MomentOfInertia moi = KilogramSquareMeters.of(0.2);
     public static final Distance length = Meters.of(0.3);
     public static final Angle minAngle = Degrees.of(-10);
-    public static final Angle maxAngle = Degrees.of(100); // there is no way we getting to 100
+    public static final Angle maxAngle = Degrees.of(100); 
 
     public static final Angle deployAngle = Degrees.of(0);
     public static final Angle stowAngle = maxAngle;
@@ -46,9 +46,8 @@ public class PivotConstants {
             length.in(Meters), 
             minAngle.in(Radians), 
             maxAngle.in(Radians), 
-            true, 
-            0, 
-            0
+            false, 
+            stowAngle.in(Radians)
         );
         return new PivotSim(system);
     }

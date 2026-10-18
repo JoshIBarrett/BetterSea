@@ -55,12 +55,12 @@ public class Robot extends TimedRobot {
            true, true, 1000, (BooleanSupplier) () -> !DriverStation.isFMSAttached(), true));
         ControlBoard.bindControls(superstructure);
         
-        FollowPathCommand.warmupCommand().schedule();
-        autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        // FollowPathCommand.warmupCommand().schedule();
+        // autoChooser = AutoBuilder.buildAutoChooser();
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
         SmartDashboard.putData(CommandScheduler.getInstance());
     }
-
+    
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items
      * like diagnostics
