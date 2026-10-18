@@ -14,6 +14,7 @@ import frc.lib.component.MotorComponent;
 import frc.lib.io.motor.rev.SparkBaseIO;
 import frc.lib.io.motor.setpoints.VoltageSetpoint;
 import frc.robot.subsystems.vision.VisionContants;
+import frc.lib.util.logging.Logger;
 
 
 public class TankDrive extends ComponentSubsystem {
@@ -22,6 +23,7 @@ public class TankDrive extends ComponentSubsystem {
     private final DifferentialDrive driveController;
     private final DifferentialDrivePoseEstimator poseEstimator; // Not actually calling update on loop as recommended because drivetrain doesn't have odometry
     private final DifferentialDriveKinematics kinematics;
+    private Pose2d pose = new Pose2d();
 
     public TankDrive() {
         registerComponent("Left", leftMotor = TankDriveConstants.getComponent(true));
@@ -43,5 +45,21 @@ public class TankDrive extends ComponentSubsystem {
 
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds) {
         poseEstimator.addVisionMeasurement(pose, timestampSeconds);
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        pose = poseEstimator.getEstimatedPosition();
+    }
+
+    @Override
+    public void log(String name) {
+        super.log(name);
+        Logger.log(name, "Drive Pose", pose);
+    }
+
+    public Pose2d getPose() {
+        return pose;
     }
 }
