@@ -24,10 +24,18 @@ public class VisionSubsystem extends SubsystemBase implements Loggable{
         addLatestEstimate();
     }
 
+    /**
+     * 
+     * @param estimate A PoseEstimate to evaluate if is acceptable
+     * @return Whether estimate is acceptable enough to utilize, currently just if the estimate actually exists
+     */
     public boolean shouldAcceptEstimate(PoseEstimate estimate) {
         return estimate.exists();
     }
 
+    /**
+     * Add the latest vision estimate to the drivetrain for each camera
+     */
     public void addLatestEstimate() {
         for (VisionComponent camera : cameras) {
             PoseEstimate latestEstimate = camera.getLatestEstimate();

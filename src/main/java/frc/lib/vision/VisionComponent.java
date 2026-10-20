@@ -19,6 +19,11 @@ public abstract class VisionComponent implements Component {
      */
     protected abstract PoseEstimate updateLatestEstimate(); 
 
+    /**
+     * Get's the latest existing vision estimate. Returns empty pose estimate if no updates have been recieved
+     * 
+     * @return
+     */
     public PoseEstimate getLatestEstimate() {
         return latestEstimate;
     }

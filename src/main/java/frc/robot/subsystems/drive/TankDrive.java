@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.component.ComponentSubsystem;
@@ -22,7 +21,7 @@ public class TankDrive extends ComponentSubsystem {
     private final MotorComponent<SparkBaseIO> leftMotor;
     private final MotorComponent<SparkBaseIO> rightMotor;
     private final DifferentialDrive driveController;
-    private final DifferentialDrivePoseEstimator poseEstimator; // Not actually calling update on loop as recommended because drivetrain doesn't have odometry
+    private final DifferentialDrivePoseEstimator poseEstimator; 
     private final DifferentialDriveKinematics kinematics;
     private Pose2d pose = new Pose2d();
 
@@ -38,12 +37,24 @@ public class TankDrive extends ComponentSubsystem {
         poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 0.0, 0.0, new Pose2d(), TankDriveConstants.stdDevs, VisionConstants.stdDevs);
     }
 
+    /**
+     * 
+     * @param forwardsSpeed Supplier for requested speed robot relative forwards as a duty cycle (-1.0 to 1.0)
+     * @param turnSpeed Supplier for requested turn speed robot forwards as a duty cycle (-1.0 to 1.0)
+     * @return A command that continously drives the robot based on suppliers
+     */
     public Command drive(DoubleSupplier forwardsSpeed, DoubleSupplier turnSpeed) {
         return withRequirement(
             Commands.run(() -> driveController.arcadeDrive(forwardsSpeed.getAsDouble(), turnSpeed.getAsDouble()))
         );
     }
 
+    /**
+     * Add a vision estimate to the robot's drivetrain pose estimate
+     * 
+     * @param pose Pose2d of the robot in the vision estimate
+     * @param timestampSeconds FPGA timestamp when the estimate was taken in seconds
+     */
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds) {
         poseEstimator.addVisionMeasurement(pose, timestampSeconds);
     }
@@ -51,7 +62,8 @@ public class TankDrive extends ComponentSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        poseEstimator.updateWithTime(0, Rotation2d.kZero, 0, 0);
+        // Update with zeroes because we don't have wheel measurements to update with method but this must be called periodically 
+        poseEstimator.updateWithTime(0, Rotation2d.kZero, 0, 0); 
         pose = poseEstimator.getEstimatedPosition();
     }
 
@@ -61,6 +73,11 @@ public class TankDrive extends ComponentSubsystem {
         Logger.log(name, "Drive Pose", pose);
     }
 
+    /**
+     * As the tank drive motor's have no encoders this estimate is entirely based on vision updates.
+     * 
+     * @return The latest estimated pose of the robot. 
+     */
     public Pose2d getPose() {
         return pose;
     }

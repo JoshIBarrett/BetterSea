@@ -56,8 +56,10 @@ public class Robot extends TimedRobot {
            true, true, 1000, (BooleanSupplier) () -> !DriverStation.isFMSAttached(), true));
         ControlBoard.bindControls(superstructure);
         
+        // Forward photonvision port for easier access
         PortForwarder.add(5800, "photonvision.local", 5800);
 
+        // Disabled autos because not needed for this robot and were crashing robot code.
         // FollowPathCommand.warmupCommand().schedule();
         // // autoChooser = AutoBuilder.buildAutoChooser();
         // // SmartDashboard.putData("Auto Chooser", autoChooser);

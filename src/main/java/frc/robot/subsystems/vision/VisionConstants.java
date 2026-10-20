@@ -1,9 +1,11 @@
 package frc.robot.subsystems.vision;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -22,15 +24,15 @@ public class VisionConstants {
     static {
         try {
             fieldLayout = new AprilTagFieldLayout(Filesystem.getDeployDirectory() + "/field_layout.json");
-            SmartDashboard.putString("Vision Found File: ", "SUCCESS");
+            SmartDashboard.putBoolean("Vision Found Field Layout: ", true);
 
         } catch (Exception e) {
             fieldLayout = null;
-            SmartDashboard.putString("Vision Found File: ", "FAIL");
+            SmartDashboard.putBoolean("Vision Found Field Layout: ", false);
         }
     }
 
-    public static PhotonComponent getComponent() {
-        return new PhotonComponent(cameraName, fieldLayout, robotToCam, () -> Rotation2d.kZero);
+    public static PhotonComponent getComponent(Supplier<Pose2d> drivePoseSupplier) {
+        return new PhotonComponent(cameraName, fieldLayout, robotToCam, () -> drivePoseSupplier.get().getRotation());
     }
 }

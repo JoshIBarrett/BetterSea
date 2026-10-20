@@ -6,12 +6,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.vision.Vision;
 import frc.lib.util.logging.Loggable;
 import frc.lib.util.logging.Logger;
-import frc.lib.vision.VisionSubsystem;
 
 public class Superstructure implements Loggable {
     // public final Drive drive = new Drive();
     public final TankDrive tankDrive = new TankDrive();
-    public final Vision vision = new Vision(tankDrive::addVisionMeasurement);
+    public final Vision vision = new Vision(tankDrive::addVisionMeasurement, () -> tankDrive.getPose());
     public final Intake intake = new Intake();
 
     public final Command intake() {

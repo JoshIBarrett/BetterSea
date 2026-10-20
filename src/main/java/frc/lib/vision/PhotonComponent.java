@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.Timer;
-import frc.lib.util.logging.Logger;
 import frc.lib.vision.VisionSubsystem.PoseEstimate;
 
 public class PhotonComponent extends VisionComponent {
@@ -30,6 +29,7 @@ public class PhotonComponent extends VisionComponent {
 
     @Override
     public void periodic() {
+        // Provide heading data to pose estimator for better estimates. Done first to ensure updates gotten in super.periodic are using latest heading data
         estimator.addHeadingData(Timer.getFPGATimestamp(), headingGetter.get()); 
 
         super.periodic();
@@ -37,26 +37,28 @@ public class PhotonComponent extends VisionComponent {
 
     @Override
     public PoseEstimate updateLatestEstimate() {
+        // Get all unread results
         List<PhotonPipelineResult> unreads = camera.getAllUnreadResults();
                 
         if (unreads.size() == 0) { // If no unread results, return empty estimate
             return PoseEstimate.empty;
         }
 
+        // Get latest unread results
         PhotonPipelineResult photonRaw = unreads.get(unreads.size() - 1);
 
+        // Get photon estimate optional
         var photonEstimateOpt = estimator.estimateCoprocMultiTagPose(photonRaw);
         boolean exists = photonEstimateOpt.isPresent();
 
-        if (!exists) { 
+        if (!exists) { // Return empty estimate if estimate does not exist
             return PoseEstimate.empty;
         }
+        var photonEstimate = photonEstimateOpt.get(); // Must exist because would return if not
 
-        var photonEstimate = photonEstimateOpt.get();
+        // Extract key features of photon estimate
         Pose2d pose = photonEstimate.estimatedPose.toPose2d();
-
         double timestampSeconds = photonRaw.getTimestampSeconds();
-
         var targets = photonEstimate.targetsUsed;
         int tagCount = targets.size();
 
