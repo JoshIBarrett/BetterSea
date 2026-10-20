@@ -59,11 +59,11 @@ public class Robot extends TimedRobot {
         PortForwarder.add(5800, "photonvision.local", 5800);
 
         // FollowPathCommand.warmupCommand().schedule();
-        // autoChooser = AutoBuilder.buildAutoChooser();
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        // // autoChooser = AutoBuilder.buildAutoChooser();
+        // // SmartDashboard.putData("Auto Chooser", autoChooser);
         // SmartDashboard.putData(CommandScheduler.getInstance());
     }
-
+    
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items
      * like diagnostics

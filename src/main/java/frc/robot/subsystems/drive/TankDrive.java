@@ -31,8 +31,8 @@ public class TankDrive extends ComponentSubsystem {
         registerComponent("Right", rightMotor = TankDriveConstants.getComponent(false));
 
         driveController = new DifferentialDrive(
-            d -> leftMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
-            d -> rightMotor.applySetpointCommand(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
+            d -> leftMotor.applySetpoint(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d))), 
+            d -> rightMotor.applySetpoint(new VoltageSetpoint(TankDriveConstants.maxVoltage.times(d)))
         );
         kinematics = new DifferentialDriveKinematics(TankDriveConstants.trackWidth);
         poseEstimator = new DifferentialDrivePoseEstimator(kinematics, Rotation2d.kZero, 0.0, 0.0, new Pose2d(), TankDriveConstants.stdDevs, VisionConstants.stdDevs);
@@ -46,7 +46,6 @@ public class TankDrive extends ComponentSubsystem {
 
     public void addVisionMeasurement(Pose2d pose, double timestampSeconds) {
         poseEstimator.addVisionMeasurement(pose, timestampSeconds);
-        SmartDashboard.putNumber("NEWTEST", timestampSeconds);
     }
 
     @Override

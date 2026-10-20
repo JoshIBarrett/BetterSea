@@ -4,10 +4,16 @@ public enum IDs {
     // CAN IDs
 
     // IDs 0-9 Reserved for drivetrain
+
+    // IDs 10-19 Reserved for tankdrive
     TANK_DRIVE_LEFT_MAIN(10, "rio"),
     TANK_DRIVE_LEFT_FOLLOWER(11, "rio"),
     TANK_DRIVE_RIGHT_MAIN(12, "rio"),
-    TANK_DRIVE_RIGHT_FOLLOWER(13, "rio");
+    TANK_DRIVE_RIGHT_FOLLOWER(13, "rio"),
+
+    // IDs 20-29 Reserved for intake
+    INTAKE_PIVOT(20, "rio"),
+    INTAKE_ROLLER(21, "rio");
     
     // Rio Digital Ports
     
